@@ -16,7 +16,7 @@ func main() {
 	case "new":
 		cli.New(opts.Name)
 	case "open":
-		// Todo
+		cli.Open(opts.Name)
 	}
 }
 

@@ -23,7 +23,15 @@ func NewJSONStore(path string) *JSONStore {
 
 // Load reads a project JSON file.
 func (store *JSONStore) Load() (*Project, error) {
-	return nil, nil
+	var p Project
+	data, err := ioutil.ReadFile(store.path)
+	if err != nil {
+		return nil, err
+	}
+	if err := json.Unmarshal(data, &p); err != nil {
+		return nil, err
+	}
+	return &p, nil
 }
 
 // Save persists a project to a JSON file.
@@ -32,8 +40,7 @@ func (store *JSONStore) Save(p *Project) error {
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(store.path, data, 0644)
-	if err != nil {
+	if err := ioutil.WriteFile(store.path, data, 0644); err != nil {
 		return err
 	}
 	return nil
